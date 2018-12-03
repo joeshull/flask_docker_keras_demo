@@ -16,7 +16,7 @@ app = Flask(__name__)
 # Use Keras pre-trained mobilenet to classify images
 from keras.applications.mobilenet import MobileNet, preprocess_input
 model = MobileNet(weights='imagenet')
-print('Model loaded'')
+print('Model loaded')
 
 # need to get tensorflow on the same thread as flask
 global graph
