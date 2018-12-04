@@ -1,18 +1,20 @@
-FROM ubuntu:16.04
+# Use an official Python runtime as a parent image
+FROM python:3.6-slim
 
-# Install Python.
-RUN \
-    apt-get update && \
-    apt-get install -y python python-dev python-pip python-virtualenv && \
-    rm -rf /var/lib/apt/lists/*
+# Set the working directory to /app
+WORKDIR /app
 
-WORKDIR app
+# Copy the current directory contents into the container at /app
+ADD . /app
 
-# reqs from file, to speed up dev iteration
-RUN pip install Werkzeug Flask numpy Keras gevent pillow h5py tensorflow
+# Install any needed packages specified in requirements.txt
+RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
-COPY . .
+# Make port 5000 available to the world outside this container
+EXPOSE 5002
 
-RUN pip install -r requirements.txt
+# Define environment variable
+ENV NAME World
 
-ENTRYPOINT [ "python" , "app.py"]
+# Run app.py when the container launches
+CMD ["python", "app.py"]
